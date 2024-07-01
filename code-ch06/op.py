@@ -672,16 +672,13 @@ def op_checksig(stack, z):
     sec_pubkey = stack.pop()
     # the next element of the stack is the DER signature
     # take off the last byte of the signature as that's the hash_type
-    der_signature = stack.pop()[:-1]
+    der_signature = stack.pop()[0:-1]
     # parse the serialized pubkey and signature into objects
-    try:
-        point = S256Point.parse(sec_pubkey)
-        sig = Signature.parse(der_signature)
-    except (ValueError, SyntaxError) as e:
-        return False
+    point = S256Point.parse(sec_pubkey)
+    signature = Signature.parse(der_signature)
     # verify the signature using S256Point.verify()
     # push an encoded 1 or 0 depending on whether the signature verified
-    if point.verify(z, sig):
+    if point.verify(z, signature):
         stack.append(encode_num(1))
     else:
         stack.append(encode_num(0))

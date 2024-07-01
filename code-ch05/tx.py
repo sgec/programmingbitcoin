@@ -115,13 +115,13 @@ class Tx:
         num_inputs = read_varint(s)
         # parse num_inputs number of TxIns
         inputs = []
-        for _ in range(num_inputs):
+        for x in range(num_inputs):
             inputs.append(TxIn.parse(s))
         # num_outputs is a varint, use read_varint(s)
         num_outputs = read_varint(s)
         # parse num_outputs number of TxOuts
         outputs = []
-        for _ in range(num_outputs):
+        for x in range(num_outputs):
             outputs.append(TxOut.parse(s))
         # locktime is an integer in 4 bytes, little-endian
         locktime = little_endian_to_int(s.read(4))
